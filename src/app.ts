@@ -1,9 +1,9 @@
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-require('dotenv').config();
-
-const nameRoutes = require('./routes/nameRoutes');
+import express, { Application } from 'express';
+import axios from 'axios';
+import cors from 'cors';
+import nameRoutes from './routes/nameRoutes';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +26,11 @@ app.get('/api/external', async (req, res) => {
     const response = await axios.get('https://jsonplaceholder.typicode.com/posts/1');
     res.json({ data: response.data });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unknown error occurred' });
+    }
   }
 });
 
