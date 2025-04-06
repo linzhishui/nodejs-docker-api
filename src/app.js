@@ -3,12 +3,17 @@ const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
 
+const nameRoutes = require('./routes/nameRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 中间件
 app.use(cors());
 app.use(express.json());
+
+// 挂载路由
+app.use('/api/names', nameRoutes);
 
 // 健康检查接口
 app.get('/health', (req, res) => {
